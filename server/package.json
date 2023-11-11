@@ -12,8 +12,11 @@
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
     "http-errors": "~1.6.3",
+    "http-status": "^1.7.3",
     "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "prisma": "^5.5.2"
   },

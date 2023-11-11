@@ -1,9 +1,9 @@
 import prisma from "../../../prisma/db.js";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
-import { UserRegistrationData } from "../../../schemas/auth/registerUserSchema.js";
-
-
+import { UserRegistrationData } from "../../../schemas/auth/registerUserSchema";
+import { hashPassword } from "../../../res/bcrypt_helper.js";
+import httpStatus from "http-status";
 
 const registerUser = async (req: Request, res: Response) => {
   try {
@@ -17,13 +17,15 @@ const registerUser = async (req: Request, res: Response) => {
     });
 
     if (userExist) {
-      res.status(400).json({ error: `User with this email is already registered.` });
+      res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ error: `User with this email is already registered.` });
       return;
     }
 
     // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+    const hashedPassword = await hashPassword(userData.password);
 
     // Create the user
     const user = await prisma.user.create({
@@ -34,9 +36,12 @@ const registerUser = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json({ message: `User ${user.name} created.` });
+    res.status(httpStatus.OK).json({ message: `User ${user.name} created.` });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while registering the user." });
+    console.log(error)
+    res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json({ error: "An error occurred while registering the user." });
   }
 };
 
