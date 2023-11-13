@@ -1,17 +1,21 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'package:verve/global/screens/scaffold.dart';
 import 'package:verve/global/widgets/button.dart';
 import 'package:verve/global/widgets/textfield.dart';
+import 'package:verve/models/auth/user_auth.dart';
+import 'package:verve/providers/auth/auth_provider.dart';
 import 'package:verve/res/assets.dart';
 import 'package:verve/res/colors.dart';
 import 'package:verve/res/dimens.dart';
 import 'package:verve/res/navigator.dart';
+import 'package:verve/res/notification.dart';
 
 import 'package:verve/res/text.dart';
+import 'package:verve/views/app/navbar.dart';
 import 'package:verve/views/auth/screens/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,13 +26,51 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController controller;
+  late TextEditingController emailCTRL;
+  late TextEditingController passwordCTRL;
 
   @override
   void initState() {
-    controller = TextEditingController();
+    emailCTRL = TextEditingController();
+    passwordCTRL = TextEditingController();
+
     super.initState();
   }
+
+  @override
+  void dispose() {
+    emailCTRL.dispose();
+    passwordCTRL.dispose();
+
+    super.dispose();
+  }
+
+  bool isLogging = false;
+
+  void handleLogin(UserLoginModel loginModel) async {
+    if (_formKey.currentState!.validate()) {
+      if (isLogging) {
+        return;
+      }
+      setState(() {
+        isLogging = true;
+      });
+      AuthProvider provider = context.read<AuthProvider>();
+      bool success = await provider.loginUser(loginModel);
+      setState(() {
+        isLogging = false;
+      });
+      if (success) {
+        NavigatorHelper.replaceAll(const NavbarPage());
+        return;
+      }
+      if (mounted) {
+        ToastManager.showErrorToast(context, provider.loginError!);
+      }
+    }
+  }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +97,35 @@ class _LoginScreenState extends State<LoginScreen> {
           textAlign: TextAlign.center,
         ),
         AppDimensions.space(8),
-        const VerveField(
-          label: "E-mail address",
-          textFieldType: TextFieldType.email,
-          icon: Iconsax.user,
-        ),
-        const VerveField(
-          label: "Password",
-          textFieldType: TextFieldType.password,
-          icon: Iconsax.key,
+        Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              VerveField(
+                controller: emailCTRL,
+                label: "E-mail address",
+                textFieldType: TextFieldType.email,
+                icon: Iconsax.user,
+              ),
+              VerveField(
+                controller: passwordCTRL,
+                label: "Password",
+                textFieldType: TextFieldType.password,
+                icon: Iconsax.key,
+              ),
+            ],
+          ),
         ),
         AppDimensions.space(3),
         VerveButton(
+          isLoading: isLogging,
           text: "Login",
-          onTap: () {},
+          onTap: () {
+            handleLogin(
+              UserLoginModel(
+                  email: emailCTRL.text, password: passwordCTRL.text),
+            );
+          },
         ),
         AppDimensions.space(4),
         Center(

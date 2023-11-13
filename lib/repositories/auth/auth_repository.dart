@@ -23,4 +23,18 @@ class AuthRepository extends IAuthRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<String> login(UserLoginModel userLoginModel) async {
+    try {
+      ApiResponse response = await _apiService.post(
+        data: userLoginModel.toMap(),
+        endpoint: EndPoints.login,
+        mustAuthenticated: false,
+      );
+      return response.data['token'];
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

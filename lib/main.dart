@@ -3,14 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:verve/providers/auth/auth_provider.dart';
 import 'package:verve/res/navigator.dart';
-import 'package:verve/views/auth/screens/signup_screen.dart';
+import 'package:verve/views/auth/screens/login_screen.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
-    )
-  ], child: const VerveApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        )
+      ],
+      child: const VerveApp(),
+    ),
+  );
 }
 
 class VerveApp extends StatelessWidget {
@@ -25,7 +30,7 @@ class VerveApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: "Inter",
         ),
-        home: const RegisterScreen(),
+        home: const LoginScreen(),
       ),
     );
   }

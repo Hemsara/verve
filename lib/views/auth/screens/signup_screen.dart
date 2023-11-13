@@ -49,6 +49,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void handleRegister(UserRegisterModel registerModel) async {
     if (_formKey.currentState!.validate()) {
+      if (signingUp) {
+        return;
+      }
       setState(() {
         signingUp = true;
       });
@@ -103,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               VerveField(
                 controller: nameController,
                 label: "Full name",
-                textFieldType: TextFieldType.email,
+                textFieldType: TextFieldType.text,
                 icon: Iconsax.user,
               ),
               VerveField(

@@ -24,16 +24,10 @@ class BaseApiService {
     return headers;
   }
 
-  void handleUnAuthenticated(statusCode, shouldNavigate) {
+  void handleUnAuthenticated(statusCode, bool mustAuthenticated) {
     if (statusCode == 401) {
-      if (shouldNavigate) {
-        // Navigate to the login screen
+      if (mustAuthenticated) {
         NavigatorHelper.replaceAll(const LoginScreen());
-      } else {
-        // Throw an error for unauthorized access
-        throw ApiError(
-          message: 'Unauthorized',
-        );
       }
     }
   }

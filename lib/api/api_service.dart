@@ -11,12 +11,12 @@ import 'package:verve/models/api/response.dart';
 
 class ApiService extends BaseApiService {
   // Send an HTTP request and handle the response
-  Future<ApiResponse> _sendRequest(
-      {required String method,
-      required String endpoint,
-      required bool mustAuthenticated,
-      Map<String, dynamic>? data,
-      bool shouldNavigate = true}) async {
+  Future<ApiResponse> _sendRequest({
+    required String method,
+    required String endpoint,
+    required bool mustAuthenticated,
+    Map<String, dynamic>? data,
+  }) async {
     try {
       var url = Uri.parse("${EndPoints.baseURL}$endpoint");
 
@@ -39,7 +39,7 @@ class ApiService extends BaseApiService {
       debugPrint("=======");
 
       // Handle unauthenticated responses and check for success or failure
-      handleUnAuthenticated(response.statusCode, shouldNavigate);
+      handleUnAuthenticated(response.statusCode , mustAuthenticated);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Successful response
@@ -72,7 +72,6 @@ class ApiService extends BaseApiService {
     required String endpoint,
     required bool mustAuthenticated,
     Map<String, dynamic>? data,
-    bool shouldNavigate = true,
   }) async {
     return _sendRequest(
       method: "GET",
@@ -85,7 +84,6 @@ class ApiService extends BaseApiService {
   // PUT Request
   Future<ApiResponse> put(
       {required Map<String, dynamic> data,
-      bool shouldNavigate = true,
       required String endpoint,
       required bool mustAuthenticated}) async {
     return _sendRequest(
@@ -114,7 +112,6 @@ class ApiService extends BaseApiService {
       {required Map<String, dynamic> data,
       required String endpoint,
       String? baseURL,
-      bool shouldNavigate = true,
       required bool mustAuthenticated}) async {
     return _sendRequest(
       method: "POST",

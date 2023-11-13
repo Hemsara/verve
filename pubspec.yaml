@@ -43,7 +43,8 @@ dependencies:
   flutter_svg: ^2.0.9
   elegant_notification: ^1.11.2
   provider: ^6.1.0
-  
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

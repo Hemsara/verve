@@ -71,6 +71,11 @@ class _VerveFieldState extends State<VerveField> {
           if (value == null || value.isEmpty) {
             return 'This field is required';
           }
+          if (widget.textFieldType == TextFieldType.email) {
+            if (!value.isValidEmail()) {
+              return 'Please enter valid email';
+            }
+          }
           return null;
         },
         keyboardType: getKeyboardType(),
@@ -125,5 +130,13 @@ class _VerveFieldState extends State<VerveField> {
         ),
       ),
     );
+  }
+}
+
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
   }
 }
