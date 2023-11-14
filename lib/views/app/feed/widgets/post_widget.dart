@@ -66,41 +66,9 @@ class _PostWidgetState extends State<PostWidget>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 17,
-                        backgroundImage: NetworkImage(
-                            "https://instagram.fcmb4-2.fna.fbcdn.net/v/t51.2885-19/276978157_264760199193892_6709045983454783025_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fcmb4-2.fna.fbcdn.net&_nc_cat=104&_nc_ohc=NEavygaj7S0AX8msGKM&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfBxxt-99wyG8HBQM8Cal-Cr8Vetl_TzxmkjWRobMkMgUg&oe=6556579F&_nc_sid=8b3546"),
-                      ),
-                      AppDimensions.space(1),
-                      Text(
-                        "Vehan Hemsara",
-                        style: AppTextStyles.bodySmallMedium,
-                      )
-                    ],
-                  ),
-                  const Icon(
-                    Iconsax.save_2,
-                    size: 20,
-                  )
-                ],
-              ),
+              header(),
               AppDimensions.space(2),
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: NetworkImage(
-                            "https://images.unsplash.com/photo-1542435503-956c469947f6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"),
-                        fit: BoxFit.cover),
-                    borderRadius: BorderRadius.circular(
-                        AppDimensions.buttonRadiusMedium)),
-              ),
+              thumbnail(),
               AppDimensions.space(2),
               Text(
                 "The art of product designing",
@@ -115,60 +83,101 @@ class _PostWidgetState extends State<PostWidget>
               AppDimensions.space(1),
               const Divider(),
               AppDimensions.space(1),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          ScaleTransition(
-                            scale: _bounceAnimation,
-                            child: Icon(
-                              isLiked
-                                  ? CupertinoIcons.heart_fill
-                                  : CupertinoIcons.heart,
-                              color: Colors.redAccent,
-                              size: 18,
-                            ),
-                          ),
-                          AppDimensions.space(1),
-                          Text(
-                            "135,000",
-                            style: AppTextStyles.bodyExtraSmallBold
-                                .copyWith(color: Colors.redAccent),
-                          ),
-                        ],
-                      ),
-                      AppDimensions.space(2),
-                      Row(
-                        children: [
-                          Icon(
-                            Iconsax.message_2,
-                            size: 18,
-                            color: AppColors.gray100,
-                          ),
-                          AppDimensions.space(1),
-                          Text(
-                            "184",
-                            style: AppTextStyles.bodyExtraSmallBold.copyWith(
-                              color: AppColors.gray100,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Icon(
-                    Iconsax.send_2,
-                    size: 20,
-                  )
-                ],
-              )
+              likesAndReactions()
             ],
           ),
         ),
       ),
     );
   }
+
+  Row likesAndReactions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Row(
+              children: [
+                ScaleTransition(
+                  scale: _bounceAnimation,
+                  child: Icon(
+                    isLiked ? CupertinoIcons.heart_fill : CupertinoIcons.heart,
+                    color: Colors.redAccent,
+                    size: 18,
+                  ),
+                ),
+                AppDimensions.space(1),
+                Text(
+                  "135,000",
+                  style: AppTextStyles.bodyExtraSmallBold
+                      .copyWith(color: Colors.redAccent),
+                ),
+              ],
+            ),
+            AppDimensions.space(2),
+            Row(
+              children: [
+                Icon(
+                  Iconsax.message_2,
+                  size: 18,
+                  color: AppColors.gray100,
+                ),
+                AppDimensions.space(1),
+                Text(
+                  "184",
+                  style: AppTextStyles.bodyExtraSmallBold.copyWith(
+                    color: AppColors.gray100,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const Icon(
+          Iconsax.send_2,
+          size: 20,
+        )
+      ],
+    );
+  }
+
+  Row header() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            const CircleAvatar(
+              radius: 17,
+              backgroundImage: NetworkImage(
+                  "https://instagram.fcmb4-2.fna.fbcdn.net/v/t51.2885-19/276978157_264760199193892_6709045983454783025_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fcmb4-2.fna.fbcdn.net&_nc_cat=104&_nc_ohc=NEavygaj7S0AX8msGKM&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfBxxt-99wyG8HBQM8Cal-Cr8Vetl_TzxmkjWRobMkMgUg&oe=6556579F&_nc_sid=8b3546"),
+            ),
+            AppDimensions.space(1),
+            Text(
+              "Vehan Hemsara",
+              style: AppTextStyles.bodySmallMedium,
+            )
+          ],
+        ),
+        const Icon(
+          Iconsax.save_2,
+          size: 20,
+        )
+      ],
+    );
+  }
+}
+
+Widget thumbnail() {
+  return Container(
+    height: 200,
+    width: double.infinity,
+    decoration: BoxDecoration(
+        image: const DecorationImage(
+            image: NetworkImage(
+                "https://images.unsplash.com/photo-1542435503-956c469947f6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"),
+            fit: BoxFit.cover),
+        borderRadius: BorderRadius.circular(AppDimensions.buttonRadiusMedium)),
+  );
 }

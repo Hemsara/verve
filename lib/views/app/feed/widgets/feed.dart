@@ -13,7 +13,7 @@ class FeedItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isEmpty = true;
+    bool isEmpty = false;
     // hardcode this variable just for now
     return Expanded(
       child: isEmpty
