@@ -13,8 +13,8 @@ app.use(cookieParser());
 app.use(routes);
 
 // 404 error
-app.use((res: Response) => {
-  res.status(404).json({ error: `Route not found` });
+app.use((req: Request, res: Response) => {
+  return res.status(404).json({ error: `Route not found` });
 });
 
 app.listen(port, () => {

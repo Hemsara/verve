@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 import 'package:verve/res/dimens.dart';
 import 'package:verve/res/navigator.dart';
@@ -8,12 +6,12 @@ import 'package:verve/res/text.dart';
 
 class VerveAppBar extends StatelessWidget {
   final String text;
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   const VerveAppBar({
     Key? key,
     required this.text,
-    required this.actions,
+    this.actions,
   }) : super(key: key);
 
   @override
@@ -35,24 +33,15 @@ class VerveAppBar extends StatelessWidget {
                       ))
                   : null,
             ),
-            AppDimensions.space(1),
+            AppDimensions.space(2),
             Text(
-              "Feed",
-              style: AppTextStyles.heading6Semibold,
+              text,
+              style: AppTextStyles.bodyRegularSemibold,
             ),
           ],
         ),
         Row(
-          children: [
-            const Icon(
-              Iconsax.notification,
-            ),
-            AppDimensions.space(2),
-            const Icon(
-              Iconsax.add,
-              size: 30,
-            ),
-          ],
+          children: actions ?? [],
         )
       ],
     );

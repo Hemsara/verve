@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:verve/res/colors.dart';
 import 'package:verve/res/dimens.dart';
+import 'package:verve/views/app/explore/screens/explore_screen.dart';
 import 'package:verve/views/app/feed/screens/home_screen.dart';
+import 'package:verve/views/app/profile/screens/profile_screen.dart';
 
 class NavbarPage extends StatefulWidget {
   const NavbarPage({super.key});
@@ -17,9 +19,9 @@ class _NavbarPageState extends State<NavbarPage> {
   int selectedIndex = 0;
   List<Widget> pages = [
     const HomeScreen(),
+    const ExploreScreen(),
     const HomeScreen(),
-    const HomeScreen(),
-    const HomeScreen(),
+    const ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class _NavbarPageState extends State<NavbarPage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
+        currentIndex: selectedIndex,
         selectedItemColor: AppColors.primary,
         onTap: (value) {
           setState(() {

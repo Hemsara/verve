@@ -25,50 +25,49 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  late TextEditingController nameController;
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+
   late TextEditingController passwordController;
   late TextEditingController emailController;
 
   @override
   void initState() {
-    nameController = TextEditingController();
+    firstNameController = TextEditingController();
+    lastNameController = TextEditingController();
+
     passwordController = TextEditingController();
     emailController = TextEditingController();
     super.initState();
   }
 
-  bool signingUp = false;
-
   @override
   void dispose() {
-    nameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+
     passwordController.dispose();
     emailController.dispose();
     super.dispose();
   }
 
-  void handleRegister(UserRegisterModel registerModel) async {
-    if (_formKey.currentState!.validate()) {
-      if (signingUp) {
-        return;
-      }
-      setState(() {
-        signingUp = true;
-      });
+  void handleRegister(
+    UserRegisterModel registerModel,
+  ) async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-      AuthProvider provider = context.read<AuthProvider>();
+    AuthProvider provider = context.read<AuthProvider>();
 
-      bool success = await provider.registerUser(registerModel);
-      setState(() {
-        signingUp = false;
-      });
-      if (success) {
-        NavigatorHelper.replaceAll(const LoginScreen());
-        return;
-      }
-      if (mounted) {
-        ToastManager.showErrorToast(context, provider.signUpError!);
-      }
+    bool success = await provider.registerUser(registerModel);
+
+    if (success) {
+      NavigatorHelper.replaceAll(const LoginScreen());
+      return;
+    }
+    if (mounted) {
+      ToastManager.showErrorToast(context, provider.signUpError!);
     }
   }
 
@@ -103,11 +102,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
           key: _formKey,
           child: Column(
             children: [
-              VerveField(
-                controller: nameController,
-                label: "Full name",
-                textFieldType: TextFieldType.text,
-                icon: Iconsax.user,
+              Row(
+                children: [
+                  Flexible(
+                    child: VerveField(
+                      controller: firstNameController,
+                      label: "First name",
+                      textFieldType: TextFieldType.text,
+                      icon: Iconsax.user,
+                    ),
+                  ),
+                  AppDimensions.space(1),
+                  Flexible(
+                    child: VerveField(
+                      controller: lastNameController,
+                      label: "Last name",
+                      textFieldType: TextFieldType.text,
+                      icon: Iconsax.user,
+                    ),
+                  ),
+                ],
               ),
               VerveField(
                 controller: emailController,
@@ -126,13 +140,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         AppDimensions.space(3),
         VerveButton(
-          isLoading: signingUp,
+          isLoading: context.watch<AuthProvider>().isSignInIn,
           text: "Create account",
           onTap: () {
             handleRegister(
               UserRegisterModel(
                 password: passwordController.text,
-                fullName: nameController.text,
+                firstName: firstNameController.text,
+                lastName: lastNameController.text,
                 email: emailController.text,
               ),
             );

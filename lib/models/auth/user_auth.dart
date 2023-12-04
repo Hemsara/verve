@@ -19,20 +19,25 @@ class UserLoginModel {
 // register
 class UserRegisterModel {
   final String password;
-  final String fullName;
+
+  final String firstName;
+  final String lastName;
+
   final String email;
 
   UserRegisterModel({
     required this.password,
-    required this.fullName,
+    required this.firstName,
+    required this.lastName,
     required this.email,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'password': password,
-      'name': fullName,
-      'email': email,
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email
     };
   }
 }

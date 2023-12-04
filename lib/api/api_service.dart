@@ -39,7 +39,7 @@ class ApiService extends BaseApiService {
       debugPrint("=======");
 
       // Handle unauthenticated responses and check for success or failure
-      handleUnAuthenticated(response.statusCode , mustAuthenticated);
+      handleUnAuthenticated(response.statusCode, mustAuthenticated);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Successful response

@@ -151,7 +151,7 @@ class _PostWidgetState extends State<PostWidget>
             const CircleAvatar(
               radius: 17,
               backgroundImage: NetworkImage(
-                  "https://instagram.fcmb4-2.fna.fbcdn.net/v/t51.2885-19/276978157_264760199193892_6709045983454783025_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fcmb4-2.fna.fbcdn.net&_nc_cat=104&_nc_ohc=NEavygaj7S0AX8msGKM&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfBxxt-99wyG8HBQM8Cal-Cr8Vetl_TzxmkjWRobMkMgUg&oe=6556579F&_nc_sid=8b3546"),
+                  "https://avatars.githubusercontent.com/u/79366878?v=4"),
             ),
             AppDimensions.space(1),
             Text(

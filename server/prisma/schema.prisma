@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -8,9 +9,61 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  name     String
-  password String
+  id              Int           @id @default(autoincrement())
+  username        String
+  email           String        @unique
+  profile_picture String?
+  first_name      String
+  last_name       String
+  password        String
+  bio             String?
+  posts           Post[]        @relation("user_posts")
+  comments        PostComment[] @relation("user_comments")
+  likes           PostLike[]    @relation("user_likes")
+  followers       Follow[]      @relation("user_followers")
+  following       Follow[]      @relation("user_following")
 }
 
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("user_followers", fields: [followerId], references: [id])
+  following User @relation("user_following", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+}
+
+model Post {
+  id         Int           @id @default(autoincrement())
+  title      String
+  subtext    String
+  body       String
+  created_at DateTime      @default(now())
+  userId     Int
+  user       User          @relation("user_posts", fields: [userId], references: [id])
+  comments   PostComment[] @relation("post_comments")
+  likes      PostLike[]    @relation("post_likes")
+  tags       String[]
+}
+
+model PostLike {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  created_at DateTime @default(now())
+  postId     Int
+  post       Post     @relation("post_likes", fields: [postId], references: [id])
+  user       User     @relation("user_likes", fields: [userId], references: [id])
+}
+
+model PostComment {
+  id         Int      @id @default(autoincrement())
+  text       String
+  postId     Int
+  userId     Int
+  created_at DateTime @default(now())
+  post       Post     @relation("post_comments", fields: [postId], references: [id])
+  user       User     @relation("user_comments", fields: [userId], references: [id])
+}

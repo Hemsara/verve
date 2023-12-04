@@ -1,5 +1,4 @@
 import prisma from "../../../prisma/db.js";
-import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { UserRegistrationData } from "../../../schemas/auth/registerUserSchema";
 import { hashPassword } from "../../../res/bcrypt_helper.js";
@@ -30,15 +29,17 @@ const registerUser = async (req: Request, res: Response) => {
     // Create the user
     const user = await prisma.user.create({
       data: {
-        name: userData.name,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
         email: userData.email,
         password: hashedPassword,
+        username: userData.first_name + "_" + userData.last_name,
       },
     });
 
-    res.status(httpStatus.OK).json({ message: `User ${user.name} created.` });
+    res.status(httpStatus.OK).json({ message: `User ${user.first_name} created.` });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res
       .status(httpStatus.INTERNAL_SERVER_ERROR)
       .json({ error: "An error occurred while registering the user." });

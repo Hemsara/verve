@@ -1,8 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:verve/global/widgets/button.dart';
-import 'package:verve/res/colors.dart';
-import 'package:verve/res/dimens.dart';
-import 'package:verve/res/text.dart';
 import 'package:verve/views/app/feed/widgets/empty_state.dart';
 import 'package:verve/views/app/feed/widgets/post_widget.dart';
 

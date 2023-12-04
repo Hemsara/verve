@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:verve/providers/auth/auth_provider.dart';
+import 'package:verve/providers/user/user_provider.dart';
 import 'package:verve/res/navigator.dart';
-import 'package:verve/views/auth/screens/login_screen.dart';
+import 'package:verve/views/app/navbar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
         )
       ],
       child: const VerveApp(),
@@ -30,7 +37,7 @@ class VerveApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: "Inter",
         ),
-        home: const LoginScreen(),
+        home: const NavbarPage(),
       ),
     );
   }

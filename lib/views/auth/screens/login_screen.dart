@@ -45,28 +45,21 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  bool isLogging = false;
+  void handleLogin(
+    UserLoginModel loginModel,
+  ) async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-  void handleLogin(UserLoginModel loginModel) async {
-    if (_formKey.currentState!.validate()) {
-      if (isLogging) {
-        return;
-      }
-      setState(() {
-        isLogging = true;
-      });
-      AuthProvider provider = context.read<AuthProvider>();
-      bool success = await provider.loginUser(loginModel);
-      setState(() {
-        isLogging = false;
-      });
-      if (success) {
-        NavigatorHelper.replaceAll(const NavbarPage());
-        return;
-      }
-      if (mounted) {
-        ToastManager.showErrorToast(context, provider.loginError!);
-      }
+    AuthProvider provider = context.read<AuthProvider>();
+    bool success = await provider.loginUser(loginModel);
+    if (success) {
+      NavigatorHelper.replaceAll(const NavbarPage());
+      return;
+    }
+    if (mounted) {
+      ToastManager.showErrorToast(context, provider.loginError!);
     }
   }
 
@@ -118,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         AppDimensions.space(3),
         VerveButton(
-          isLoading: isLogging,
+          isLoading: context.watch<AuthProvider>().isLoginIn,
           text: "Login",
           onTap: () {
             handleLogin(

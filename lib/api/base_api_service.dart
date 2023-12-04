@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:verve/models/api/error.dart';
 import 'package:verve/res/navigator.dart';
+import 'package:verve/res/storage.dart';
 import 'package:verve/views/auth/screens/login_screen.dart';
 
 class BaseApiService {
@@ -14,8 +13,9 @@ class BaseApiService {
     if (mustAuthenticated) {
       try {
         // Retrieve the authentication token from secure storage
-        const storage = FlutterSecureStorage();
-        String? token = await storage.read(key: 'token');
+        SecureStorageHelper secureStorage = SecureStorageHelper();
+        String? token = await secureStorage.read('token');
+
         headers['Authorization'] = 'Bearer $token';
       } catch (e) {
         return headers;

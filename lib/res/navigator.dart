@@ -9,8 +9,9 @@ class NavigatorHelper {
   static Future? to(Widget path) {
     final context = navigatorKey.currentContext;
     if (context != null) {
-      return Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => path));
+      return Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => path),
+      );
     }
     return null;
   }

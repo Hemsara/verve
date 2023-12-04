@@ -43,6 +43,8 @@ dependencies:
   flutter_svg: ^2.0.9
   elegant_notification: ^1.11.2
   provider: ^6.1.0
+  google_sign_in: ^6.1.6
+  flutter_dotenv: ^5.1.0
 
 
 dev_dependencies:
@@ -70,7 +72,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/logo/
+    - assets/socials/
 
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
